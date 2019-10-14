@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "alias": "origin-app",
   "name": "origin-app",
   "routes": [
       {
