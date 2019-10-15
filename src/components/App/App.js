@@ -5,7 +5,7 @@ import Loginform from '../../routes/LoginForm/LoginForm';
 import RegistrationForm from '../../routes/RegistrationForm/RegistrationForm';
 import LandingPage from '../../routes/LandingPage/LandingPage';
 import AddFamilyMemberForm from '../../routes/AddFamilyMemberForm/AddFamilyMemberForm';
-import MainView from '../../routes/MainView/MainView';
+import HomePage from '../../routes/HomePage/HomePage';
 import NotFoundPage from '../../routes/NotFoundPage/NotFoundPage'
 
 class App extends React.Component {
@@ -26,15 +26,15 @@ class App extends React.Component {
               component={Loginform}  
             />
             <Route 
-              path={'/main'}
-              component={MainView}
+              path={'/home'}
+              component={HomePage}
             />
             <Route 
               path={'/register'}
               component={RegistrationForm}
             />
             <Route 
-              path={'/add-family-member'}
+              path={'/add-parent'}
               component={AddFamilyMemberForm}
             />
             <Route
