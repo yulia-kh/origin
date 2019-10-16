@@ -34,7 +34,7 @@ class App extends React.Component {
               component={RegistrationForm}
             />
             <Route 
-              path={'/add-parent'}
+              path={'/:id/add-parent'}
               component={AddFamilyMemberForm}
             />
             <Route
