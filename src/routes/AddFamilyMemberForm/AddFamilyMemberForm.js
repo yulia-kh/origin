@@ -1,17 +1,18 @@
 import React from 'react';
 import config from '../../config';
+import ApiContext from '../../ApiContext';
 
 export default class AddFamilyMemberForm extends React.Component {
   state = {
     relation_to_child: '',
     first_name: '',
     last_name: '',
-    date_of_birth: '',
-    date_of_death: '',
+    date_of_birth: null,
+    date_of_death: null,
     details: ''
   };
   
-  
+  static contextType = ApiContext;
 
   handleRelationChange = (event) => {
     this.setState({
@@ -48,12 +49,14 @@ export default class AddFamilyMemberForm extends React.Component {
     })
   }
 
+  componentDidMount() {}
+
   handleSubmit = e => {
     e.preventDefault();
     
     const person = this.state;
     const url = `${config.API_ENDPOINT}/persons/${this.props.match.params.id}/parents`;
-    console.log(url);
+
     fetch(url, {
       method: 'POST',
       headers: {'content-type': 'application/json'},
@@ -63,10 +66,19 @@ export default class AddFamilyMemberForm extends React.Component {
         if(!res.ok) {
           return res.json().then(e => Promise.reject(e))
         } 
-        return res
-      }
-        
+        return res.json()
+      })
+      .then(
+        response => 
+        // console.log(response[0])
+        this.context.addPerson(response[0])
+        )
+      .then(this.props.history.push('/home')
       )
+      .catch(e => {
+        console.error({e})
+      })
+
   }
   
   handleClickCancel = () => {
