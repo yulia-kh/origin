@@ -6,14 +6,25 @@ import Loginform from '../../routes/LoginForm/LoginForm';
 import RegistrationForm from '../../routes/RegistrationForm/RegistrationForm';
 import LandingPage from '../../routes/LandingPage/LandingPage';
 import AddFamilyMemberForm from '../../routes/AddFamilyMemberForm/AddFamilyMemberForm';
+import EditFamilyMember from '../../routes/EditFamilyMember/EditFamilyMember';
 import HomePage from '../../routes/HomePage/HomePage';
 import NotFoundPage from '../../routes/NotFoundPage/NotFoundPage';
 import ApiContext from '../../ApiContext';
+import './App.css';
 
 class App extends React.Component {
   state = {
     parents: []
   }
+
+  handleUpdatePerson = updatedPerson => {
+    console.log(updatedPerson);
+    this.setState({
+      parents: this.state.parents.map(person => 
+        (person.id !== updatedPerson.id) ? person: updatedPerson)
+    })
+  }
+
   handleDeletePerson = (personId) => {
     this.setState({
       parents: this.state.parents.filter(person => person.id !== personId)
@@ -44,7 +55,8 @@ class App extends React.Component {
     const value = {
       parents: this.state.parents,
       deletePerson: this.handleDeletePerson,
-      addPerson: this.handleAddPerson
+      addPerson: this.handleAddPerson,
+      updatePerson: this.handleUpdatePerson
     };
 
     return (
@@ -74,6 +86,10 @@ class App extends React.Component {
               <Route 
                 path={'/:id/add-parent'}
                 component={AddFamilyMemberForm}
+              />
+              <Route 
+                path={'/:id/edit'}
+                component={EditFamilyMember}
               />
               <Route
                 component={NotFoundPage}

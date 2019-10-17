@@ -35,7 +35,7 @@ export default class HomePage extends React.Component {
               <h3>{person.first_name + ' ' + person.last_name}</h3>
               <p>{person.date_of_birth}</p>
               <p>{person.details}</p>
-              <Link to={'/'}><button>Edit</button></Link>
+              <Link to={`${person.id}/edit`}><button>Edit</button></Link>
               <button onClick={() => this.handleDeletePerson(person.id)}>Delete</button>
               <Link to={`${person.id}/add-parent`}><button>Add relatives</button></Link>
             </li>)}

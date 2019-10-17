@@ -1,0 +1,17 @@
+h1 {
+  text-align: center;
+}
+form {
+  width: 80%;
+  margin: auto;
+}
+
+#first-name, #last-name , #dob, #dod, #select-relative {
+  margin: 5px;
+}
+
+
+#summary {
+  display: block;
+  width: 80%;
+}

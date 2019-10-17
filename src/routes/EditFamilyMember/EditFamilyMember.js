@@ -2,17 +2,46 @@ import React from 'react';
 import config from '../../config';
 import ApiContext from '../../ApiContext';
 
-export default class AddFamilyMemberForm extends React.Component {
+export default class EditFamilyMember extends React.Component {
   state = {
     relation_to_child: '',
     first_name: '',
     last_name: '',
-    date_of_birth: null,
-    date_of_death: null,
+    date_of_birth: '',
+    date_of_death: '',
     details: ''
   };
-  
+
   static contextType = ApiContext;
+
+  componentDidMount() {
+    const { id } = this.props.match.params
+    fetch(`${config.API_ENDPOINT}/persons/${id}`, {
+      method: 'GET',
+      headers: {
+        // 'authorization': `Bearer ${config.API_KEY}`
+      }
+    })
+      .then(res => {
+        if (!res.ok) {
+          return res.json().then(error => Promise.reject(error))
+        }
+        return res.json()
+      })
+      .then(responseData => {
+        this.setState({
+          relation_to_child: responseData.relation_to_child,
+          first_name: responseData.first_name,
+          last_name: responseData.last_name,
+          date_of_birth: responseData.date_of_birth === null ? '' : responseData.date_of_birth,
+          date_of_death: responseData.date_of_death === null ? '' : responseData.date_of_death,
+          details: responseData.details
+        })
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }
 
   handleRelationChange = (event) => {
     this.setState({
@@ -51,39 +80,54 @@ export default class AddFamilyMemberForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    
-    const person = this.state;
-    const url = `${config.API_ENDPOINT}/persons/${this.props.match.params.id}/parents`;
+    const { id } = this.props.match.params;
+    const newPerson = {
+      relation_to_child: this.state.relation_to_child,
+      first_name: this.state.first_name,
+      last_name: this.state.last_name,
+      date_of_birth: this.state.date_of_birth === '' ? null : this.state.date_of_birth,
+      date_of_death: this.state.date_of_death === '' ? null : this.state.date_of_death,
+      details: this.state.details
+    };
+    const url = `${config.API_ENDPOINT}/persons/${id}`;
 
     fetch(url, {
-      method: 'POST',
+      method: 'PATCH',
       headers: {'content-type': 'application/json'},
-      body: JSON.stringify(person)
+      body: JSON.stringify(newPerson)
     })
       .then(res => {
         if(!res.ok) {
           return res.json().then(e => Promise.reject(e))
         } 
-        return res.json()
+        // return res.json()
       })
-      .then(
-        response => 
-        // console.log(response[0])
-        this.context.addPerson(response)
-        )
-      .then(this.props.history.push('/home')
-      )
+      .then(() => {
+        this.resetFields(newPerson)
+        this.context.updatePerson(newPerson)
+        this.props.history.push('/home')
+      })
       .catch(e => {
         console.error({e})
       })
+  }
 
+  resetFields = (newFields) => {
+    this.setState({
+      first_name: newFields.first_name || '',
+      last_name: newFields.last_name || '',
+      date_of_birth: newFields.date_of_birth || '',
+      date_of_death: newFields.date_of_death || '',
+      details: newFields.details || ''
+    })
   }
   
   handleClickCancel = () => {
     this.props.history.push('/home')
   };
-  
+
   render() {
+    const { first_name, last_name, date_of_birth, date_of_death, details} = this.state;
     return (
       <section>
         <form onSubmit={this.handleSubmit}>
@@ -95,24 +139,24 @@ export default class AddFamilyMemberForm extends React.Component {
           </select>
           <div>
             <label htmlFor="first-name">First name</label>
-            <input type="text" name="firstName" id="first-name"
+            <input type="text" name="firstName" id="first-name" value={first_name}
               onChange={this.handleNameChange} placeholder="First name"/>
             <label htmlFor="last-name">Last name</label>
-            <input type="text" name="last-name" id="last-name" 
+            <input type="text" name="last-name" id="last-name" value={last_name}
               onChange={this.handleLastNameChange} placeholder="Last name"/>
           </div>    
           <div >
             <label htmlFor="dob">Date of birth</label>
-            <input name="dob" id="dob" placeholder="yyyy-mm-dd" 
+            <input name="dob" id="dob" placeholder="yyyy-mm-dd" value={date_of_birth}
             onChange={this.handleDobChange}/>
             <label htmlFor="dod">Date of death</label>
-            <input name="dod" id="dod" placeholder="yyyy-mm-dd"
+            <input name="dod" id="dod" placeholder="yyyy-mm-dd" value={date_of_death}
             onChange={this.handleDodChange}/>
           </div>
           <div >
             <label htmlFor="summary">Add interesting facts, details or story</label>
             <textarea name="summary" id="summary" rows="15"
-            value={this.state.details}
+            value={details}
             onChange={this.handleDetailsChange}></textarea>
           </div>
           <button type="submit">Submit</button>
