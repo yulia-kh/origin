@@ -81,7 +81,7 @@ export default class EditFamilyMember extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     const { id } = this.props.match.params;
-    const newPerson = {
+    const personToUpdate = {
       relation_to_child: this.state.relation_to_child,
       first_name: this.state.first_name,
       last_name: this.state.last_name,
@@ -94,7 +94,7 @@ export default class EditFamilyMember extends React.Component {
     fetch(url, {
       method: 'PATCH',
       headers: {'content-type': 'application/json'},
-      body: JSON.stringify(newPerson)
+      body: JSON.stringify(personToUpdate)
     })
       .then(res => {
         if(!res.ok) {
@@ -103,8 +103,8 @@ export default class EditFamilyMember extends React.Component {
         // return res.json()
       })
       .then(() => {
-        this.resetFields(newPerson)
-        this.context.updatePerson(newPerson)
+        this.resetFields(personToUpdate)
+        this.context.updatePerson(personToUpdate, id)
         this.props.history.push('/home')
       })
       .catch(e => {

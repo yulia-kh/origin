@@ -17,12 +17,15 @@ class App extends React.Component {
     parents: []
   }
 
-  handleUpdatePerson = updatedPerson => {
-    console.log(updatedPerson);
-    this.setState({
-      parents: this.state.parents.map(person => 
-        (person.id !== updatedPerson.id) ? person: updatedPerson)
-    })
+  handleUpdatePerson = (updatedPerson, id) => {
+    id = parseInt(id);
+    updatedPerson = {
+      ...updatedPerson,
+      id
+    }
+    this.setState({parents: this.state.parents.map(person => 
+      person.id === id ? updatedPerson : person)});
+
   }
 
   handleDeletePerson = (personId) => {

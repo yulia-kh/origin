@@ -27,6 +27,8 @@ export default class HomePage extends React.Component {
   }
 
   render() {
+    console.log("homePage: render");
+    console.log(this.context.parents);
     return (
       <section className = "person_card">
         <ul>
