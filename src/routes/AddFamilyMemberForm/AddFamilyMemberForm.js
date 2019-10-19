@@ -1,6 +1,7 @@
 import React from 'react';
 import config from '../../config';
 import ApiContext from '../../ApiContext';
+import TokenService from '../../services/token-service';
 
 export default class AddFamilyMemberForm extends React.Component {
   state = {
@@ -57,7 +58,10 @@ export default class AddFamilyMemberForm extends React.Component {
 
     fetch(url, {
       method: 'POST',
-      headers: {'content-type': 'application/json'},
+      headers: {
+        'content-type': 'application/json',
+        'authorization': `bearer ${TokenService.getAuthToken()}`
+      },
       body: JSON.stringify(person)
     })
       .then(res => {
