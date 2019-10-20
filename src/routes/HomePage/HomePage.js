@@ -18,7 +18,7 @@ export default class HomePage extends React.Component {
       ...updatedPerson,
       id
     }
-    if (updatedPerson.id == this.state.mainPerson.id) {
+    if (updatedPerson.id === this.state.mainPerson.id) {
       this.setState({
         mainPerson: updatedPerson
       })

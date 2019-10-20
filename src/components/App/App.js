@@ -3,8 +3,8 @@ import { Route, Switch } from 'react-router-dom';
 import Header from '../Header/Header';
 import PrivateRoute from '../Utils/PrivateRoute';
 import PublicOnlyRoute from '../Utils/PublicOnlyRoute';
-import Loginform from '../../routes/LoginForm/LoginForm';
-import RegistrationForm from '../../routes/RegistrationForm/RegistrationForm';
+import LoginPage from '../../routes/LoginPage/LoginPage';
+import RegistrationPage from '../../routes/RegistrationPage/RegistrationPage';
 import LandingPage from '../../routes/LandingPage/LandingPage';
 import AddFamilyMemberForm from '../../routes/AddFamilyMemberForm/AddFamilyMemberForm';
 import EditFamilyMember from '../../routes/EditFamilyMember/EditFamilyMember';
@@ -28,7 +28,7 @@ class App extends React.Component {
             />
             <PublicOnlyRoute
               path={'/login'}
-              component={Loginform}  
+              component={LoginPage}  
             />
             <PrivateRoute 
               exact path={'/home'}
@@ -36,7 +36,7 @@ class App extends React.Component {
             />
             <PublicOnlyRoute 
               path={'/register'}
-              component={RegistrationForm}
+              component={RegistrationPage}
             />
             <PrivateRoute 
               path={'/:id/add-parent'}

@@ -7,7 +7,6 @@ export default class Header extends React.Component {
     TokenService.clearAuthToken();
   }
 
-
   renderLogoutLink() {
     return (
       <div className='Header__logged-in'>
@@ -36,9 +35,10 @@ export default class Header extends React.Component {
   }
 
   render() {
+    console.log(TokenService.hasAuthToken());
     return (
       <nav>
-        <Link to='/'><h1>Origin</h1></Link>
+        <Link to='/home'><h1>Origin</h1></Link>
         {TokenService.hasAuthToken()
           ? this.renderLogoutLink()
           : this.renderLoginLink()}
