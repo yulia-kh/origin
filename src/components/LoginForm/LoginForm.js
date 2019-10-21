@@ -9,19 +9,6 @@ export default class LoginForm extends React.Component {
 
   state = { error: null }
 
-  handleSubmitBasicAuth = ev => {
-    ev.preventDefault()
-    const { user_name, password } = ev.target
-
-    TokenService.saveAuthToken(
-      TokenService.makeBasicAuthToken(user_name.value, password.value)
-    )
-    
-    user_name.value = ''
-    password.value = ''
-    this.props.onLoginSuccess()
-  }
-
   handleSubmitJwtAuth = ev => {
     ev.preventDefault()
     this.setState({ error: null })
@@ -42,23 +29,22 @@ export default class LoginForm extends React.Component {
       })
   }
   render() {
+    const { error } = this.state
     return (
-      <section>
-        <header>
-          <h3>Welcome back</h3>
-        </header>
-        <form>
-          <div>
-            <label for="username">Email</label>
-            <input type="text" name='username' id='username' />
+      <form onSubmit={this.handleSubmitJwtAuth}>
+        <div>
+          <div role='alert'>
+            {error && <p className='red'>{error}</p>}
           </div>
-          <div>
-            <label for="password">Password</label>
-            <input type="password" name='password' id='password' />
-          </div>
-          <button type='submit'>Log in</button>
-        </form>
-      </section>
+          <label htmlFor="username">User name</label>
+          <input type="text" name='user_name' id='username' />
+        </div>
+        <div>
+          <label htmlFor="password">Password</label>
+          <input type="password" name='password' id='password' />
+        </div>
+        <button type='submit'>Log in</button>
+      </form>
     )
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import config from '../../config';
 import ApiContext from '../../ApiContext';
+import TokenService from '../../services/token-service';
 
 export default class EditFamilyMember extends React.Component {
   state = {
@@ -19,7 +20,7 @@ export default class EditFamilyMember extends React.Component {
     fetch(`${config.API_ENDPOINT}/persons/${id}`, {
       method: 'GET',
       headers: {
-        // 'authorization': `Bearer ${config.API_KEY}`
+        'authorization': `bearer ${TokenService.getAuthToken()}`,
       }
     })
       .then(res => {
@@ -93,7 +94,10 @@ export default class EditFamilyMember extends React.Component {
 
     fetch(url, {
       method: 'PATCH',
-      headers: {'content-type': 'application/json'},
+      headers: {
+        'content-type': 'application/json',
+        'authorization': `bearer ${TokenService.getAuthToken()}`
+      },
       body: JSON.stringify(personToUpdate)
     })
       .then(res => {
