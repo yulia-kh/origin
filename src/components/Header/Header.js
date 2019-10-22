@@ -5,6 +5,7 @@ import TokenService from '../../services/token-service'
 export default class Header extends React.Component {
   handleLogoutClick = () => {
     TokenService.clearAuthToken();
+    this.props.updateSigninState();
   }
 
   renderLogoutLink() {
@@ -35,11 +36,10 @@ export default class Header extends React.Component {
   }
 
   render() {
-    console.log(TokenService.hasAuthToken());
     return (
       <nav>
         <Link to='/home'><h1>Origin</h1></Link>
-        {TokenService.hasAuthToken()
+        {this.props.isLoggedIn
           ? this.renderLogoutLink()
           : this.renderLoginLink()}
       </nav>

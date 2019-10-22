@@ -67,12 +67,10 @@ export default class AddFamilyMemberForm extends React.Component {
       .then(res => {
         if(!res.ok) {
           return res.json().then(e => Promise.reject(e))
-        } 
-        return res.json()
+        }
       })
       .then(
-        response => 
-        // console.log(response[0])
+        response =>
         this.context.addPerson(response)
         )
       .then(this.props.history.push('/home')
@@ -94,8 +92,8 @@ export default class AddFamilyMemberForm extends React.Component {
           <label htmlFor="select-relative">Relation*</label>
           <select id="select-relative" onChange={this.handleRelationChange} defaultValue="Select relation">
             <option disabled>Select relation</option>
-            <option>Father</option>
-            <option>Mother</option>
+            <option value="Father">Father</option>
+            <option value="Mother">Mother</option>
           </select>
           <div>
             <label htmlFor="first-name">First name</label>

@@ -13,6 +13,7 @@ export default class LoginPage extends Component {
     const { location, history } = this.props
     const destination = (location.state || {}).from || '/home'
     history.push(destination)
+    this.props.updateSigninState()
   }
 
   render() {

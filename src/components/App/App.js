@@ -11,14 +11,24 @@ import EditFamilyMember from '../../routes/EditFamilyMember/EditFamilyMember';
 import HomePage from '../../routes/HomePage/HomePage';
 import NotFoundPage from '../../routes/NotFoundPage/NotFoundPage';
 import './App.css';
+import TokenService from '../../services/token-service';
 
 class App extends React.Component {
+  state = {
+    isLoggedIn: TokenService.hasAuthToken()
+  }
 
+  updateSigninState = () => {
+    this.setState({
+      isLoggedIn: TokenService.hasAuthToken()
+    })
+  }
   render() {
     return (
       <div className = 'App'>
         <header className='App-header'>
-          <Header />
+          <Header isLoggedIn={this.state.isLoggedIn}
+          updateSigninState={this.updateSigninState}/>
         </header>
         <main className='App-main'>
           <Switch>
@@ -28,7 +38,7 @@ class App extends React.Component {
             />
             <PublicOnlyRoute
               path={'/login'}
-              component={LoginPage}  
+              component={props => <LoginPage {...props} updateSigninState={this.updateSigninState}/>}  
             />
             <PrivateRoute 
               exact path={'/home'}

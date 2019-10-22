@@ -1,6 +1,27 @@
+/* #333300 brown text, borders #CCCC00 yellow accent 
+brown 6B3A1D, peach EEAD88, graybrown 6B4E3D, orange EB7E3F
+*/
+#root {
+  box-sizing: border-box;
+}
+nav {
+  background-color: #6B3A1D;
+  padding: 5px;
+}
+
 h1 {
   text-align: center;
+  font-size: 250%;
+  color: #ffffff;
 }
+a {
+  text-decoration: none;
+}
+
+.App-main {
+  padding: 20px;
+}
+
 form {
   width: 80%;
   margin: auto;

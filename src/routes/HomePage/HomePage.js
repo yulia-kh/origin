@@ -2,91 +2,69 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Tree from 'react-tree-graph';
 import 'react-tree-graph/dist/style.css';
+import Modal from '../../components/Modal/Modal';
 import config from '../../config';
 import ApiContext from '../../ApiContext';
 import TokenService from '../../services/token-service';
-
-function transformArrToView(arr){
-  let root = {};
-  const parents = {};
-  for(let i=0; i<arr.length; i++){
-      const current = arr[i];
-      if(current.parent_id === null){
-          root = current;
-      } else {
-          if(!parents.hasOwnProperty(current.child_id)){
-              parents[current.child_id] = [];
-          }
-          parents[current.child_id].push(current);
-      }
-  }
-
-  function buildView(item){
-      const itemParents = parents[item.id];
-      item.name = `${item.first_name} ${item.last_name}`;
-      if (Array.isArray(itemParents)){
-          item.children = itemParents.map(parent => buildView(parent));
-      }
-      return item; 
-  }
-  return buildView(root);
-}
+import './homePage.css';
 
 export default class HomePage extends React.Component {
   static contextType = ApiContext;
   state = {
-    family: []
+    show: false,
+    itemId: '',
+    family: {}
   }
 
-  handleUpdatePerson = (updatedPerson, id) => {
-    id = parseInt(id);
-    updatedPerson = {
-      ...updatedPerson,
-      id
-    }
-    if (updatedPerson.id === this.state.mainPerson.id) {
-      this.setState({
-        mainPerson: updatedPerson
-      })
-    }
-    this.setState({parents: this.state.parents.map(person => 
-      person.id === id ? updatedPerson : person)});
-
-  }
-
-  deletePerson = (personId) => {
+  showModal = person => {
     this.setState({
-      parents: this.state.parents.filter(person => person.id !== personId)
+      selectedPerson: person,
+      show: !this.state.show,
     });
   }
 
-  handleAddPerson = (person) => {
-    this.setState({
-      parents: [...this.state.parents, person]
-    })
+  formatTree(node){
+    node.name = `${node.first_name} ${node.last_name}`;
+    node.children = node.parents.map(childNode => this.formatTree(childNode));
+    delete node.parents;
+    node.gProps = {
+      onClick: (event) => {this.showModal(node)}
+    }
+    return node;
   }
 
-  componentDidMount() {
+  handleUpdatePerson = (updatedPerson, id) => {
+    this.loadTree();
+  }
+
+  handleAddPerson = (person) => {
+    this.loadTree();
+  }
+
+  loadTree() {
     fetch(`${config.API_ENDPOINT}/tree`, {
       method: 'GET',
       headers: {
         'authorization': `bearer ${TokenService.getAuthToken()}`
       }
     })
-      .then(res => 
-        (!res.ok)
-        ? res.json().then(e => Promise.reject(e))
-        : res.json()
-      )
-      .then(res => {
-        console.log(res);
-        this.setState({
-          family: res
-        });
-      })
-      .catch(error => {
-        console.error({error})
-      })
+    .then(res => 
+      (!res.ok)
+      ? res.json().then(e => Promise.reject(e))
+      : res.json()
+    )
+    .then(res => {
+      this.setState({
+        family: this.formatTree(res)
+      });
+    })
+    .catch(error => {
+      console.error({error})
+    });
+  }
+
+  componentDidMount() {
+    this.loadTree();
   }
  
   handleDeletePerson = (id) => {
@@ -102,38 +80,52 @@ export default class HomePage extends React.Component {
           return res.json().then(e => Promise.reject(e))
       })
       .then(() => {
-        this.deletePerson(id)
+        this.loadTree()
       })
       .catch(error => {
         console.error({error})
       })
   }
 
+  handleShowPerson = (person) => {
+
+    const personToShow = {
+      first_name: '',
+      last_name: '',
+      ...person
+    }
+    
+    return (
+    <section>
+      <h3>{personToShow.first_name + ' ' + personToShow.last_name}</h3>
+      <p>{personToShow.date_of_birth}</p>
+      <p>{personToShow.details}</p>
+      <Link to={`${personToShow.id}/edit`}><button>Edit</button></Link>
+      <button onClick={() => {this.handleDeletePerson(personToShow.id); this.showModal()}}>Delete</button>
+      <Link to={`${personToShow.id}/add-parent`}><button>Add relatives</button></Link>
+    </section>)
+  }
+
   render() {
     const value = {
-      parents: this.state.parents,
+      family: this.state.family,
       addPerson: this.handleAddPerson,
       updatePerson: this.handleUpdatePerson
     };
+
     return (
       <ApiContext.Provider value={value}>
-        <section className = "person_card">
-        <Tree
-          data={transformArrToView(this.state.family)}
-          height={400}
-          width={400}
-          animated/>
-          <ul>
-            {this.state.family.map(person => 
-              <li key={person.id}>
-                <h3>{person.first_name + ' ' + person.last_name}</h3>
-                <p>{person.date_of_birth}</p>
-                <p>{person.details}</p>
-                <Link to={`${person.id}/edit`}><button>Edit</button></Link>
-                <button onClick={() => this.handleDeletePerson(person.id)}>Delete</button>
-                <Link to={`${person.id}/add-parent`}><button>Add relatives</button></Link>
-              </li>)}
-          </ul>
+        <section className = "tree">
+          <Tree
+            data={this.state.family}
+            height={400}
+            width={400}
+          />
+          <Modal show={this.state.show}
+            onClose={this.showModal}
+          >
+          {this.handleShowPerson(this.state.selectedPerson)}
+          </Modal>
         </section>
       </ApiContext.Provider>
     )
