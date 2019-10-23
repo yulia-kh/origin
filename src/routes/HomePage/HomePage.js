@@ -13,7 +13,7 @@ export default class HomePage extends React.Component {
   state = {
     show: false,
     itemId: '',
-    family: {}
+    family: []
   }
 
   showModal = person => {
@@ -35,14 +35,21 @@ export default class HomePage extends React.Component {
   }
 
   handleUpdatePerson = (updatedPerson, id) => {
-    this.loadTree();
+    const updatedFamily = this.state.family.map(person =>
+      person.id !== id ? person : updatedPerson)
+    this.setState = {
+      family: updatedFamily
+    }
   }
 
   handleAddPerson = (person) => {
-    this.loadTree();
+    this.setState = {
+      ...this.state.family, person
+    }
   }
 
-  loadTree() {
+
+  componentDidMount() {
     fetch(`${config.API_ENDPOINT}/tree`, {
       method: 'GET',
       headers: {
@@ -56,16 +63,12 @@ export default class HomePage extends React.Component {
     )
     .then(res => {
       this.setState({
-        family: this.formatTree(res)
+        family: res
       });
     })
     .catch(error => {
       console.error({error})
     });
-  }
-
-  componentDidMount() {
-    this.loadTree();
   }
  
   handleDeletePerson = (id) => {
@@ -81,10 +84,10 @@ export default class HomePage extends React.Component {
           return res.json().then(e => Promise.reject(e))
       })
       .then(() => {
-        // const tree = this.state.family;
-        // if (tree.id === id) {
-        //   tree
-        this.loadTree();
+        const filteredFamily = this.state.family.filter(person => person.id !== id)
+        this.setState = {
+          family: filteredFamily
+        }
       })
       .catch(error => {
         console.error({error})
@@ -92,13 +95,11 @@ export default class HomePage extends React.Component {
   }
 
   handleShowPerson = (person) => {
-
     const personToShow = {
       first_name: '',
       last_name: '',
       ...person
     }
-    
     return (
       this.state.family.id === personToShow.id) ?
         <section>
@@ -124,13 +125,22 @@ export default class HomePage extends React.Component {
         </section>
   }
 
+  arrayToObject = (array) =>
+  array.reduce((obj, item) => {
+    obj[item.id] = item;
+    return obj;
+  }, {});
+
+
   render() {
     const value = {
       family: this.state.family,
       addPerson: this.handleAddPerson,
       updatePerson: this.handleUpdatePerson
     };
-
+  
+    const data = this.arrayToObject(this.state.family)
+    console.log(data)
     return (
       <ApiContext.Provider value={value}>
         <section className = "tree">

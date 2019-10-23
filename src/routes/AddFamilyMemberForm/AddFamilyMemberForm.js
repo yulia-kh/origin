@@ -53,8 +53,10 @@ export default class AddFamilyMemberForm extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     
-    const person = this.state;
-    const url = `${config.API_ENDPOINT}/persons/${this.props.match.params.id}/parents`;
+    let person = this.state;
+    const child_id = this.props.match.params.id
+    const url = `${config.API_ENDPOINT}/persons/${child_id}/parents`;
+    person = {...person, child_id}
 
     fetch(url, {
       method: 'POST',
