@@ -1,0 +1,46 @@
+.landing {
+  display: flex;
+  flex-direction: column;
+}
+.heading {
+  text-align: center;
+  font-weight: 800;
+  font-size: 20px;
+  color: black;
+  border-bottom: 2px solid #277500;
+  padding-bottom: 20px;
+}
+
+.how-to-use {
+  margin: 10px auto;
+  border: 3px solid  #277500;
+  border-radius: 4px;
+  width: 80%;
+  padding: 5px;
+}
+
+img {
+  width: 100%;
+}
+
+@media only screen and (min-width: 769px) {
+  .landing {
+    display: flex;
+    flex-direction: row;
+  }
+  .how-to-use {
+    margin: 10px 10px;
+    border: 3px solid  #277500;
+    border-radius: 4px;
+    width: 25%;
+    padding: 5px;
+  }
+  .heading {
+    height: 60px;
+  }
+  
+}
+
+@media only screen and (min-width: 1140px) {
+ 
+}
