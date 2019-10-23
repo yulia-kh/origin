@@ -38,7 +38,7 @@ export default class Header extends React.Component {
   render() {
     return (
       <nav>
-        <Link to='/home'><h1>Origin</h1></Link>
+        <Link to='/home' className='title'><h1>ORIGIN</h1></Link>
         {this.props.isLoggedIn
           ? this.renderLogoutLink()
           : this.renderLoginLink()}

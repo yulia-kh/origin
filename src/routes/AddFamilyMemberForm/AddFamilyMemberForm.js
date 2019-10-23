@@ -95,30 +95,27 @@ export default class AddFamilyMemberForm extends React.Component {
             <option value="Father">Father</option>
             <option value="Mother">Mother</option>
           </select>
-          <div>
-            <label htmlFor="first-name">First name</label>
-            <input type="text" name="firstName" id="first-name"
-              onChange={this.handleNameChange} placeholder="First name"/>
-            <label htmlFor="last-name">Last name</label>
-            <input type="text" name="last-name" id="last-name" 
-              onChange={this.handleLastNameChange} placeholder="Last name"/>
-          </div>    
-          <div >
-            <label htmlFor="dob">Date of birth</label>
-            <input name="dob" id="dob" placeholder="yyyy-mm-dd" 
-            onChange={this.handleDobChange}/>
-            <label htmlFor="dod">Date of death</label>
-            <input name="dod" id="dod" placeholder="yyyy-mm-dd"
-            onChange={this.handleDodChange}/>
-          </div>
-          <div >
-            <label htmlFor="summary">Add interesting facts, details or story</label>
-            <textarea name="summary" id="summary" rows="15"
-            value={this.state.details}
-            onChange={this.handleDetailsChange}></textarea>
-          </div>
+          <label htmlFor="first-name">First name</label>
+          <input type="text" name="firstName" id="first-name"
+            onChange={this.handleNameChange} placeholder="First name"/>
+          <label htmlFor="last-name">Last name</label>
+          <input type="text" name="last-name" id="last-name" 
+            onChange={this.handleLastNameChange} placeholder="Last name"/>
+          <label htmlFor="dob">Date of birth</label>
+          <input type="date" name="dob" id="dob" placeholder="yyyy-mm-dd" 
+          onChange={this.handleDobChange}/>
+          <label htmlFor="dod">Date of death</label>
+          <input type="date" name="dod" id="dod" placeholder="yyyy-mm-dd"
+          onChange={this.handleDodChange}/>
+          
+        
+          <label htmlFor="summary">Add interesting facts</label>
+          <textarea name="summary" id="summary" rows="15"
+          value={this.state.details}
+          onChange={this.handleDetailsChange}></textarea>
+      
           <button type="submit">Submit</button>
-          <button type="button" onClick={this.handleClickCancel}>Cancel</button>
+          <button className="cancel" type="button" onClick={this.handleClickCancel}>Cancel</button>
         </form>
       </section>
     )

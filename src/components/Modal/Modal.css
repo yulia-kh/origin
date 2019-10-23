@@ -1,0 +1,76 @@
+
+.modal {
+  border-radius: 2px;
+  padding: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  max-width: 80%;
+  height: 400px;
+  max-height: 80%;
+  z-index: 100;
+  background-color: white;
+  box-shadow: 0px 5px 10px 0 black;
+  line-height: 1.5;
+}
+/* #eeefef */
+.modal-title {
+  text-align: center;
+  font-size: 25px;
+}
+
+.button-container {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-container button {
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  width: 120px;
+  border: none;
+  cursor: pointer;
+}
+
+.actions button {
+  background-color:   #800040;
+  color: white;
+  width: 100%;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.actions button:hover {
+  background-color: #4d0026;
+}
+
+
+.delete {
+  background-color: #ff6666;
+  color: white;
+}
+
+.delete:hover {
+  background-color: #e60000;
+  color: white;
+  border-radius: 4px;
+}
+
+.add, .edit {
+  background-color: #3bb300;
+  color: white;
+}
+
+.add:hover, .edit:hover {
+  background-color: #277500;
+}
+
+
+

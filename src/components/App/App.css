@@ -1,38 +1,94 @@
 /* #333300 brown text, borders #CCCC00 yellow accent 
-brown 6B3A1D, peach EEAD88, graybrown 6B4E3D, orange EB7E3F
+#4d0026 cherry;, green #88ff4d, graybrown 6B4E3D, orange EB7E3F
 */
+*,
+	*:after,
+	*:before {
+		box-sizing: border-box;
+  }
+  
 #root {
-  box-sizing: border-box;
+  margin-top: 80px;
 }
+.App-header {
+  background-color: #4d0026;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  display: flex;
+  box-shadow: 0 0 15px 0 black;
+}
+
+header * {
+  display: inline;
+}
+
 nav {
-  background-color: #6B3A1D;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
   padding: 5px;
 }
 
-h1 {
+.title {
+  padding-left: 20px;
+  margin-right: 5px;
   text-align: center;
-  font-size: 250%;
   color: #ffffff;
+  align-self: center;
 }
 a {
   text-decoration: none;
+}
+
+.Header__logged-in, .Header__not-logged-in {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.Header__logged-in > a, .Header__not-logged-in > a {
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  border-radius: 2px;
+  margin-right: 20px;
+  padding: 3px 7px 7px 7px;
+  align-self: center;
 }
 
 .App-main {
   padding: 20px;
 }
 
-form {
-  width: 80%;
-  margin: auto;
+
+@media only screen and (min-width: 481px) {
+  
 }
 
-#first-name, #last-name , #dob, #dod, #select-relative {
-  margin: 5px;
+@media only screen and (min-width: 769px) {
+  .title {
+    padding-left: 30px;
+    margin-right: 5px;
+  }
+  .Header__logged-in > a, .Header__not-logged-in > a {
+    margin-right: 20px;
+  }
+  .Header__logged-in, .Header__not-logged-in {
+    margin-right: 10px;
+  }
 }
 
-
-#summary {
-  display: block;
-  width: 80%;
+@media only screen and (min-width: 1140px) {
+  .title {
+    padding-left: 50px;
+    margin-right: 5px;
+  }
+  .Header__logged-in > a, .Header__not-logged-in > a {
+    margin-right: 30px;
+  }
+  .Header__logged-in, .Header__not-logged-in {
+    margin-right: 30px;
+  }
 }

@@ -6,7 +6,7 @@ export default class LandingPage extends React.Component {
       <>
         <section>
           <header>
-            <h3>Add family members</h3>
+            <h3 class>Add family members</h3>
           </header>
           <p>[<em>placeholder for screenshot of a form to add a new family member</em>]</p>
           <p>Origin helps you to keep track of your family history.</p>

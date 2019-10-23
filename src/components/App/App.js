@@ -10,6 +10,7 @@ import AddFamilyMemberForm from '../../routes/AddFamilyMemberForm/AddFamilyMembe
 import EditFamilyMember from '../../routes/EditFamilyMember/EditFamilyMember';
 import HomePage from '../../routes/HomePage/HomePage';
 import NotFoundPage from '../../routes/NotFoundPage/NotFoundPage';
+import 'normalize.css';
 import './App.css';
 import TokenService from '../../services/token-service';
 
