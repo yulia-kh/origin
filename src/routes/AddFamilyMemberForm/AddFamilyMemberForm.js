@@ -66,14 +66,16 @@ export default class AddFamilyMemberForm extends React.Component {
       },
       body: JSON.stringify(person)
     })
-      .then(res => {
-        if(!res.ok) {
-          return res.json().then(e => Promise.reject(e))
-        }
-      })
+      .then(res => 
+        (!res.ok)
+        ? res.json().then(e => Promise.reject(e))
+        : res.json()
+      )
       .then(
-        response =>
-        this.context.addPerson(response)
+        response => {
+          console.log(response);  
+          this.context.addPerson(response);
+        }
         )
       .then(this.props.history.push('/home')
       )

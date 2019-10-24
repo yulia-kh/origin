@@ -7,47 +7,42 @@ import config from '../../config';
 import ApiContext from '../../ApiContext';
 import TokenService from '../../services/token-service';
 import './HomePage.css';
+import transformArrToView from '../../components/Utils/helpers';
 
 export default class HomePage extends React.Component {
   static contextType = ApiContext;
   state = {
     show: false,
     itemId: '',
-    family: []
+    family: {},
+    rootId: ''
   }
 
-  showModal = person => {
+  showModal = id => {
     this.setState({
-      selectedPerson: person,
       show: !this.state.show,
+      itemId: id
     });
   }
 
-  formatTree(node){
-    node.name = `${node.first_name} ${node.last_name}`;
-    node.textProps = {x: 25, y: -40};
-    node.children = node.parents.map(childNode => this.formatTree(childNode));
-    delete node.parents;
-    node.gProps = {
-      onClick: (event) => {this.showModal(node)}
-    }
-    return node;
-  }
-
   handleUpdatePerson = (updatedPerson, id) => {
-    const updatedFamily = this.state.family.map(person =>
-      person.id !== id ? person : updatedPerson)
-    this.setState = {
+    const updatedFamily = this.state.family;
+    updatedFamily[id] = updatedPerson;
+    this.setState({
       family: updatedFamily
-    }
+    });
   }
 
   handleAddPerson = (person) => {
-    this.setState = {
-      ...this.state.family, person
-    }
+    console.log('hi from handle add')
+    console.log(person);
+    const updatedFamily = this.state.family;
+    updatedFamily[person.id] = person;
+    this.setState({
+      family:updatedFamily
+    });
+    console.log(this.state.family);
   }
-
 
   componentDidMount() {
     fetch(`${config.API_ENDPOINT}/tree`, {
@@ -62,8 +57,10 @@ export default class HomePage extends React.Component {
       : res.json()
     )
     .then(res => {
+      console.log(res);
       this.setState({
-        family: res
+        family: res.family,
+        rootId: res.rootId
       });
     })
     .catch(error => {
@@ -84,52 +81,63 @@ export default class HomePage extends React.Component {
           return res.json().then(e => Promise.reject(e))
       })
       .then(() => {
-        const filteredFamily = this.state.family.filter(person => person.id !== id)
-        this.setState = {
-          family: filteredFamily
-        }
+        const keys = Object.keys(this.state.family).filter(key => parseInt(key) !== parseInt(id));
+        const updatedFamily = {};
+        keys.forEach(key => {
+          updatedFamily[key] = this.state.family[key];
+        })
+
+        this.setState({
+          family: updatedFamily
+        });
       })
+      // .then(() => this.showModal)
       .catch(error => {
         console.error({error})
       })
   }
 
-  handleShowPerson = (person) => {
-    const personToShow = {
+  handleShowPerson = (id) => {
+    if(!id) return;
+    let personToShow = this.state.family[id];
+    personToShow = {
       first_name: '',
       last_name: '',
-      ...person
+      id: '',
+      ...personToShow
     }
     return (
-      this.state.family.id === personToShow.id) ?
+      personToShow.id === this.state.rootId ?
         <section>
           <div className='button-container'>
-            <Link to={`${personToShow.id}/edit`}><button class="edit">Edit</button></Link>
-            <Link to={`${personToShow.id}/add-parent`}><button class='add'>Add parents</button></Link>
+            <Link to={`${personToShow.id}/edit`}><button className="edit">Edit</button></Link>
+            <Link to={`${personToShow.id}/add-parent`}><button className='add'>Add parents</button></Link>
           </div>
           <h3 className="modal-title">{personToShow.first_name + ' ' + personToShow.last_name}</h3>
-          <p class="date">{personToShow.date_of_birth === null ? '' : 'Birth: ' + personToShow.date_of_birth}
+          <p className="date">{personToShow.date_of_birth === null ? '' : 'Birth: ' + personToShow.date_of_birth}
           {personToShow.date_of_death === null ? '' : ' - Death: ' + personToShow.date_of_death}</p>
           <p className="scroll-content">{personToShow.details}</p>
-        </section> :
+        </section> 
+        :
         <section>
           <div className='button-container'>
-            <Link to={`${personToShow.id}/edit`}><button class="edit">Edit</button></Link>
-            <button onClick={() => {this.handleDeletePerson(personToShow.id); this.showModal()}} class="delete">Delete</button>
-            <Link to={`${personToShow.id}/add-parent`}><button class='add'>Add parents</button></Link>
+            <Link to={`${personToShow.id}/edit`}><button className="edit">Edit</button></Link>
+            <button onClick={() => {this.handleDeletePerson(personToShow.id);this.showModal()}} className="delete">Delete</button>
+            <Link to={`${personToShow.id}/add-parent`}><button className='add'>Add parents</button></Link>
           </div>
           <h3 className="modal-title">{personToShow.first_name + ' ' + personToShow.last_name}</h3>
-          <p class="date">{personToShow.date_of_birth === null ? '' : 'Birth: ' + personToShow.date_of_birth}
+          <p className="date">{personToShow.date_of_birth === null ? '' : 'Birth: ' + personToShow.date_of_birth}
           {personToShow.date_of_death === null ? '' : ' - Death: ' + personToShow.date_of_death}</p>
           <p className="scroll-content">{personToShow.details}</p>  
         </section>
+    )
   }
 
-  arrayToObject = (array) =>
-  array.reduce((obj, item) => {
-    obj[item.id] = item;
-    return obj;
-  }, {});
+  // arrayToObject = (array) =>
+  // array.reduce((obj, item) => {
+  //   obj[item.id] = item;
+  //   return obj;
+  // }, {});
 
 
   render() {
@@ -138,15 +146,14 @@ export default class HomePage extends React.Component {
       addPerson: this.handleAddPerson,
       updatePerson: this.handleUpdatePerson
     };
-  
-    const data = this.arrayToObject(this.state.family)
-    console.log(data)
+    // const data = transformArrToView(this.state.family, this.showModal, this.state.rootId);
+    // console.log(data);
     return (
       <ApiContext.Provider value={value}>
         <section className = "tree">
           <div className="custom-container">
           <Tree
-            data={this.state.family}
+            data={transformArrToView(this.state.family, this.showModal, this.state.rootId)}
             height={700}
             width={600}
             svgProps={{
@@ -157,7 +164,7 @@ export default class HomePage extends React.Component {
           <Modal show={this.state.show}
             onClose={this.showModal}
           >
-          {this.handleShowPerson(this.state.selectedPerson)}
+          {this.handleShowPerson(this.state.itemId)}
           </Modal>
         </section>
       </ApiContext.Provider>

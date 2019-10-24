@@ -6,12 +6,13 @@ export default class Modal extends React.Component {
     this.props.onClose && this.props.onClose(e);
   };
   render() {
+    console.log(this.props)
     if(!this.props.show){
       return null;
   }
     return (
     <div className="modal">
-      <div className="actions"><button onClick={this.onClose}>Close</button></div>
+      <div className="actions"><button onClick={e => this.onClose(e)}>Close</button></div>
       <div className="content">{this.props.children}</div>  
     </div>)
   }
