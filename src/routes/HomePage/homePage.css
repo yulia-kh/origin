@@ -2,6 +2,7 @@ svg.custom circle {
   fill: #4d0026;
   stroke: #4d0026;
   stroke-width: 4px;
+  r: 15px;
 }
 
 svg.custom path.link {
@@ -12,10 +13,15 @@ svg.custom path.link {
 svg.custom {
   font-size: 20px;
   font-weight: 600;
+  color: white;
   writing-mode: vertical-rl;
   text-orientation: mixed;
 } 
 
 div.custom-container {
   text-align: center;
+}
+
+svg {
+  transform: rotate(270deg);
 }

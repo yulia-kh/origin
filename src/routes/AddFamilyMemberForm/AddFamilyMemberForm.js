@@ -53,8 +53,10 @@ export default class AddFamilyMemberForm extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     
-    const person = this.state;
-    const url = `${config.API_ENDPOINT}/persons/${this.props.match.params.id}/parents`;
+    let person = this.state;
+    const child_id = this.props.match.params.id
+    const url = `${config.API_ENDPOINT}/persons/${child_id}/parents`;
+    person = {...person, child_id}
 
     fetch(url, {
       method: 'POST',
@@ -64,14 +66,16 @@ export default class AddFamilyMemberForm extends React.Component {
       },
       body: JSON.stringify(person)
     })
-      .then(res => {
-        if(!res.ok) {
-          return res.json().then(e => Promise.reject(e))
-        }
-      })
+      .then(res => 
+        (!res.ok)
+        ? res.json().then(e => Promise.reject(e))
+        : res.json()
+      )
       .then(
-        response =>
-        this.context.addPerson(response)
+        response => {
+          console.log(response);  
+          this.context.addPerson(response);
+        }
         )
       .then(this.props.history.push('/home')
       )
