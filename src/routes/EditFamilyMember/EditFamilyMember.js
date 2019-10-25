@@ -8,8 +8,6 @@ export default class EditFamilyMember extends React.Component {
     relation_to_child: '',
     first_name: '',
     last_name: '',
-    date_of_birth: '',
-    date_of_death: '',
     details: ''
   };
 
@@ -34,8 +32,6 @@ export default class EditFamilyMember extends React.Component {
           relation_to_child: responseData.relation_to_child,
           first_name: responseData.first_name,
           last_name: responseData.last_name,
-          date_of_birth: responseData.date_of_birth === null ? '' : responseData.date_of_birth,
-          date_of_death: responseData.date_of_death === null ? '' : responseData.date_of_death,
           details: responseData.details
         })
       })
@@ -61,18 +57,6 @@ export default class EditFamilyMember extends React.Component {
     })
   }
 
-  handleDobChange = (event) => {
-    this.setState({
-      date_of_birth: event.target.value,
-    })
-  }
-
-  handleDodChange = (event) => {
-    this.setState({
-      date_of_death: event.target.value,
-    })
-  }
-
   handleDetailsChange = (event) => {
     this.setState({
       details: event.target.value,
@@ -86,8 +70,6 @@ export default class EditFamilyMember extends React.Component {
       relation_to_child: this.state.relation_to_child,
       first_name: this.state.first_name,
       last_name: this.state.last_name,
-      date_of_birth: this.state.date_of_birth === '' ? null : this.state.date_of_birth,
-      date_of_death: this.state.date_of_death === '' ? null : this.state.date_of_death,
       details: this.state.details
     };
     console.log(personToUpdate)
@@ -118,10 +100,9 @@ export default class EditFamilyMember extends React.Component {
 
   resetFields = (newFields) => {
     this.setState({
+      relation_to_child: newFields.relation_to_child || '',
       first_name: newFields.first_name || '',
       last_name: newFields.last_name || '',
-      date_of_birth: newFields.date_of_birth || '',
-      date_of_death: newFields.date_of_death || '',
       details: newFields.details || ''
     })
   }
@@ -131,7 +112,7 @@ export default class EditFamilyMember extends React.Component {
   };
 
   render() {
-    const { relation_to_child, first_name, last_name, date_of_birth, date_of_death, details} = this.state;
+    const { relation_to_child, first_name, last_name, details} = this.state;
     console.log(relation_to_child);
     return (
       <section>
@@ -148,12 +129,6 @@ export default class EditFamilyMember extends React.Component {
             <label htmlFor="last-name">Last name</label>
             <input type="text" name="last-name" id="last-name" value={last_name}
               onChange={this.handleLastNameChange} placeholder="Last name"/>
-            <label htmlFor="dob">Date of birth</label>
-            <input type="date" name="dob" id="dob" placeholder="yyyy-mm-dd" value={date_of_birth}
-            onChange={this.handleDobChange}/>
-            <label htmlFor="dod">Date of death</label>
-            <input type="date" name="dod" id="dod" placeholder="yyyy-mm-dd" value={date_of_death}
-            onChange={this.handleDodChange}/>
             <label htmlFor="summary">Add interesting facts, details or story</label>
             <textarea name="summary" id="summary" rows="15"
             value={details}

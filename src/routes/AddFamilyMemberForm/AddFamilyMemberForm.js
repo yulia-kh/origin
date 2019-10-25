@@ -8,12 +8,8 @@ export default class AddFamilyMemberForm extends React.Component {
     relation_to_child: '',
     first_name: '',
     last_name: '',
-    date_of_birth: null,
-    date_of_death: null,
     details: ''
   };
-  
-  // static contextType = ApiContext;
 
   handleRelationChange = (event) => {
     this.setState({
@@ -29,18 +25,6 @@ export default class AddFamilyMemberForm extends React.Component {
   handleLastNameChange = (event) => {
     this.setState({
       last_name: event.target.value,
-    })
-  }
-
-  handleDobChange = (event) => {
-    this.setState({
-      date_of_birth: event.target.value,
-    })
-  }
-
-  handleDodChange = (event) => {
-    this.setState({
-      date_of_death: event.target.value,
     })
   }
 
@@ -103,14 +87,6 @@ export default class AddFamilyMemberForm extends React.Component {
           <label htmlFor="last-name">Last name</label>
           <input type="text" name="last-name" id="last-name" 
             onChange={this.handleLastNameChange} placeholder="Last name"/>
-          <label htmlFor="dob">Date of birth</label>
-          <input type="date" name="dob" id="dob" placeholder="yyyy-mm-dd" 
-          onChange={this.handleDobChange}/>
-          <label htmlFor="dod">Date of death</label>
-          <input type="date" name="dod" id="dod" placeholder="yyyy-mm-dd"
-          onChange={this.handleDodChange}/>
-          
-        
           <label htmlFor="summary">Add interesting facts</label>
           <textarea name="summary" id="summary" rows="15"
           value={this.state.details}

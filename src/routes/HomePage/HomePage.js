@@ -69,7 +69,6 @@ export default class HomePage extends React.Component {
   }
  
   handleDeletePerson = (id) => {
-    console.log('delete');
     fetch(`${config.API_ENDPOINT}/persons/${id}`, {
       method: 'DELETE',
       headers: {
