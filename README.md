@@ -1,7 +1,7 @@
 # Origin
 
 - Live version: https://origin-app.ykhisamutdinova.now.sh/
-- Required Huddle API:
+- Required Origin API:
   - Live: https://fast-eyrie-75698.herokuapp.com/
   - Repository: https://github.com/yulia-kh/origin-api
 

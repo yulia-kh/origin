@@ -1,4 +1,4 @@
 export default {
-  API_ENDPOINT: 'http://192.168.0.12:8000/api',
+  API_ENDPOINT: 'https://murmuring-reef-29838.herokuapp.com/api',
   TOKEN_KEY: 'origin-client-auth-token',
 }
