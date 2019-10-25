@@ -4,11 +4,10 @@
 }
 .heading {
   text-align: center;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 20px;
   color: black;
   border-bottom: 2px solid #277500;
-  padding-bottom: 20px;
 }
 
 .how-to-use {

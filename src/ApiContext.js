@@ -1,10 +1,10 @@
 import React from 'react';
 
 const ApiContext = React.createContext({
-  parents: [],
+  family: {},
   addPerson: () => {},
-  deletePerson: () => {},
-  updatePerson: () => {}
+  updatePerson: () => {},
+  deletePerson: () => {}
 })
 
 export default ApiContext;

@@ -13,7 +13,7 @@ export default class AddFamilyMemberForm extends React.Component {
     details: ''
   };
   
-  static contextType = ApiContext;
+  // static contextType = ApiContext;
 
   handleRelationChange = (event) => {
     this.setState({
@@ -72,12 +72,9 @@ export default class AddFamilyMemberForm extends React.Component {
         : res.json()
       )
       .then(
-        response => {
-          console.log(response);  
-          this.context.addPerson(response);
+        () => {
+          this.props.history.push('/home');
         }
-        )
-      .then(this.props.history.push('/home')
       )
       .catch(e => {
         console.error({e})
@@ -90,8 +87,9 @@ export default class AddFamilyMemberForm extends React.Component {
   };
   
   render() {
-    return (
-      <section>
+    return (<ApiContext.Consumer>
+      {({addPerson}) => (
+        <section>
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="select-relative">Relation*</label>
           <select id="select-relative" onChange={this.handleRelationChange} defaultValue="Select relation">
@@ -118,10 +116,12 @@ export default class AddFamilyMemberForm extends React.Component {
           value={this.state.details}
           onChange={this.handleDetailsChange}></textarea>
       
-          <button type="submit">Submit</button>
+          <button type="submit" onSubmit={() => addPerson}>Submit</button>
           <button className="cancel" type="button" onClick={this.handleClickCancel}>Cancel</button>
         </form>
       </section>
-    )
-  }
+      )}
+    </ApiContext.Consumer>
+      
+    )}
 }

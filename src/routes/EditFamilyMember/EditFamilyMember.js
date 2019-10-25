@@ -103,13 +103,13 @@ export default class EditFamilyMember extends React.Component {
     })
       .then(res => {
         if(!res.ok) {
-          return res.json().then(e => Promise.reject(e))
+          return res.json().then(e => Promise.reject(e));
         } 
       })
       .then(() => {
-        this.resetFields(personToUpdate)
-        this.context.updatePerson(personToUpdate, id)
-        this.props.history.push('/home')
+        this.resetFields(personToUpdate);
+        this.context.updatePerson(personToUpdate, id);
+        this.props.history.push('/home');
       })
       .catch(e => {
         console.error({e})
@@ -159,7 +159,7 @@ export default class EditFamilyMember extends React.Component {
             value={details}
             onChange={this.handleDetailsChange}></textarea>
           <button type="submit">Submit</button>
-          <button class="cancel" type="button" onClick={this.handleClickCancel}>Cancel</button>
+          <button className="cancel" type="button" onClick={this.handleClickCancel}>Cancel</button>
         </form>
       </section>
     )

@@ -2,7 +2,7 @@ svg.custom circle {
   fill: #4d0026;
   stroke: #4d0026;
   stroke-width: 4px;
-  r: 15px;
+  r: 12px;
 }
 
 svg.custom path.link {
@@ -11,9 +11,8 @@ svg.custom path.link {
   stroke-width: 4px;
 }
 svg.custom {
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 600;
-  color: white;
   writing-mode: vertical-rl;
   text-orientation: mixed;
 } 
