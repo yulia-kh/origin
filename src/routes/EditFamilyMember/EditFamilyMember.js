@@ -51,6 +51,7 @@ export default class EditFamilyMember extends React.Component {
       first_name: event.target.value,
     })
   }
+
   handleLastNameChange = (event) => {
     this.setState({
       last_name: event.target.value,
@@ -72,7 +73,7 @@ export default class EditFamilyMember extends React.Component {
       last_name: this.state.last_name,
       details: this.state.details
     };
-    console.log(personToUpdate)
+   
     const url = `${config.API_ENDPOINT}/persons/${id}`;
 
     fetch(url, {
@@ -113,12 +114,11 @@ export default class EditFamilyMember extends React.Component {
 
   render() {
     const { relation_to_child, first_name, last_name, details} = this.state;
-    console.log(relation_to_child);
     return (
       <section>
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="select-relative">Relation*</label>
-          <select id="select-relative" onChange={this.handleRelationChange} value={relation_to_child}>
+          <select id="select-relative" onChange={this.handleRelationChange} value={relation_to_child} required>
             <option disabled>Select relation</option>
             <option value="Father">Father</option>
             <option value="Mother">Mother</option>

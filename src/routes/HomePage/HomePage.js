@@ -1,6 +1,5 @@
 import React from 'react';
 import Tree from 'react-tree-graph';
-// import 'react-tree-graph/dist/style.css';
 import Modal from '../../components/Modal/Modal';
 import config from '../../config';
 import ApiContext from '../../ApiContext';
@@ -34,14 +33,11 @@ export default class HomePage extends React.Component {
   }
 
   handleAddPerson = (person) => {
-    console.log('hi from handle add')
-    console.log(person);
     const updatedFamily = this.state.family;
     updatedFamily[person.id] = person;
     this.setState({
       family:updatedFamily
     });
-    console.log(this.state.family);
   }
 
   componentDidMount() {
@@ -57,7 +53,6 @@ export default class HomePage extends React.Component {
       : res.json()
     )
     .then(res => {
-      console.log(res);
       this.setState({
         family: res.family,
         rootId: res.rootId
@@ -91,7 +86,6 @@ export default class HomePage extends React.Component {
           family: updatedFamily
         });
       })
-      // .then(() => this.showModal)
       .catch(error => {
         console.error({error})
       })

@@ -3,14 +3,6 @@ import { Link } from 'react-router-dom';
 import ApiContext from '../../ApiContext';
 
 class PersonToShow extends React.Component {
-  // if(!id) return;
-  // let family[itemId] = this.state.family[id];
-  // family[itemId] = {
-  //   first_name: '',
-  //   last_name: '',
-  //   id: '',
-  //   ...family[itemId]
-  // }
   render() {
     return (
       <ApiContext.Consumer>
@@ -39,8 +31,7 @@ class PersonToShow extends React.Component {
             <p className="scroll-content">{family[itemId].details}</p>  
           </section>
         )}
-      
-        </ApiContext.Consumer>
+      </ApiContext.Consumer>
     )
   } 
 }

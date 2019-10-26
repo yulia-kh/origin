@@ -10,13 +10,20 @@ import AddFamilyMemberForm from '../../routes/AddFamilyMemberForm/AddFamilyMembe
 import EditFamilyMember from '../../routes/EditFamilyMember/EditFamilyMember';
 import HomePage from '../../routes/HomePage/HomePage';
 import NotFoundPage from '../../routes/NotFoundPage/NotFoundPage';
+import TokenService from '../../services/token-service';
 import 'normalize.css';
 import './App.css';
-import TokenService from '../../services/token-service';
+
 
 class App extends React.Component {
   state = {
-    isLoggedIn: TokenService.hasAuthToken()
+    isLoggedIn: TokenService.hasAuthToken(),
+    hasError: false
+  }
+
+  static getDerivedStateFromError(error) {
+    console.error(error)
+    return { hasError: true }
   }
 
   updateSigninState = () => {
@@ -24,6 +31,7 @@ class App extends React.Component {
       isLoggedIn: TokenService.hasAuthToken()
     })
   }
+
   render() {
     return (
       <div className = 'App'>
@@ -32,6 +40,7 @@ class App extends React.Component {
           updateSigninState={this.updateSigninState}/>
         </header>
         <main className='App-main'>
+          {this.state.hasError && <p className='red'>There was an error! Oh no!</p>}
           <Switch>
             <PublicOnlyRoute
               exact path={'/'}

@@ -22,6 +22,7 @@ export default class AddFamilyMemberForm extends React.Component {
       first_name: event.target.value,
     })
   }
+
   handleLastNameChange = (event) => {
     this.setState({
       last_name: event.target.value,
@@ -76,7 +77,7 @@ export default class AddFamilyMemberForm extends React.Component {
         <section>
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="select-relative">Relation*</label>
-          <select id="select-relative" onChange={this.handleRelationChange} defaultValue="Select relation">
+          <select id="select-relative" onChange={this.handleRelationChange} defaultValue="Select relation" required>
             <option disabled>Select relation</option>
             <option value="Father">Father</option>
             <option value="Mother">Mother</option>
@@ -91,7 +92,6 @@ export default class AddFamilyMemberForm extends React.Component {
           <textarea name="summary" id="summary" rows="15"
           value={this.state.details}
           onChange={this.handleDetailsChange}></textarea>
-      
           <button type="submit" onSubmit={() => addPerson}>Submit</button>
           <button className="cancel" type="button" onClick={this.handleClickCancel}>Cancel</button>
         </form>

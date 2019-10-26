@@ -30,6 +30,7 @@ export default class RegistrationForm extends React.Component {
         this.setState({ error: res.error })
       })
   }
+  
   render() {
     const { error } = this.state
     return (
@@ -41,18 +42,18 @@ export default class RegistrationForm extends React.Component {
           {error && <p className='red'>{error}</p>}
         </div>
         <div>
-          <label htmlFor="registration__first_name">First name</label>
-          <input placeholder='Enter first name' type="text" name='first_name' id='Registration__first_name' />
+          <label htmlFor="registration__first_name" >First name</label>
+          <input placeholder='Enter first name' type="text" name='first_name' id='Registration__first_name' aria-label="Enter first name"/>
           <label htmlFor="registration__last_name">Last name</label>
-          <input placeholder='Enter last name' type="text" name='last_name' id='Registration__last_name' />
+          <input placeholder='Enter last name' type="text" name='last_name' id='Registration__last_name' aria-label="Enter last name"/>
         </div>
         <div>
           <label htmlFor="username">User name</label>
-          <input type="text" name='user_name' id='username' placeholder="Enter user name" />
+          <input type="text" name='user_name' id='username' placeholder="Enter user name" aria-label="Enter user name"/>
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <input type="password" name='password' id='password'placeholder="Enter password"/>
+          <input type="password" name='password' id='password'placeholder="Enter password" aria-label="Enter password"/>
         </div>
         <button type='submit'>Sign Up</button>
       </form>

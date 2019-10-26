@@ -1,6 +1,3 @@
-/* #333300 brown text, borders #CCCC00 yellow accent 
-#4d0026 cherry;, green #88ff4d, graybrown 6B4E3D, orange EB7E3F
-*/
 *,
 	*:after,
 	*:before {
@@ -10,6 +7,7 @@
 #root {
   margin-top: 80px;
 }
+
 .App-header {
   background-color: #4d0026;
   position: fixed;
@@ -39,6 +37,7 @@ nav {
   color: #ffffff;
   align-self: center;
 }
+
 a {
   text-decoration: none;
 }
@@ -60,11 +59,6 @@ a {
 
 .App-main {
   padding: 20px;
-}
-
-
-@media only screen and (min-width: 481px) {
-  
 }
 
 @media only screen and (min-width: 769px) {
